@@ -4,28 +4,34 @@ Java UDP
 This library provides a helpful abstraction over Java's built in UDP handling.
 
 
-Usage
---------
+See the IntegrationTest for Usage:
+<pre>
+public class IntegrationTest {
 
-Create a
+     private static final int PORT = 8123;
+     private static final String EXPECTED = "expected";
+     private final JudpReceiver receiver = new JudpReceiver(PORT);
+     private final JudpSender sender = new JudpSender("127.0.0.1", PORT);
+     
 
-     JUDP judp =  new JUDP();
+     @Test
+     public void receivesWithDefaultPacketSize() throws Exception {
+     	sender.send(EXPECTED);
+     
+     	assertEquals(EXPECTED, receiver.receive());
+     }
 
-and initialize it with
+     @Test
+     public void receivesNotFullStringWhenPacketSizeTooSmall() throws Exception {
+     	sender.send(EXPECTED);
+     
+     	assertFalse(EXPECTED.equals(receiver.receive(2)));
+     }
 
-     judp.start(inetAdress, serverport, clientport);
-
-where inetAdress is the IP adress of the server you want to talk to,
-serverport is the port you wand to send to,
-and clientport is the port you want to listen on.
-
-Use 
-
-     judp.receive()
-
-to get an incoming package (best used in a running loop)
-and 
-
-     judp.send(message)
-
-to send the String "message" to the server.
+     @After
+     public void closeSockets() {
+     	receiver.close();
+     	sender.close();
+     }
+}
+</pre>

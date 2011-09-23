@@ -10,11 +10,11 @@ public class Judp {
 		this.socket = socket;
 	}
 
-	public DatagramSocket getSocket() {
-		return socket;
-	}
-	
 	public void close() {
 		socket.close();
+	}
+	
+	protected DatagramSocket getSocket() {
+		return socket;
 	}
 }

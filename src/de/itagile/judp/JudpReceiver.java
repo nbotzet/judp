@@ -18,11 +18,9 @@ public class JudpReceiver extends Judp {
 	}
 
 	public String receive(int packetSize) throws IOException {
-		byte[] receiceData = new byte[packetSize];
-		DatagramPacket datagramPacket = new DatagramPacket(receiceData,
-				receiceData.length);
+		byte[] receiveData = new byte[packetSize];
+		DatagramPacket datagramPacket = new DatagramPacket(receiveData, receiveData.length);
 		getSocket().receive(datagramPacket);
-		return new String(datagramPacket.getData(), 0, datagramPacket
-				.getLength());
+		return new String(datagramPacket.getData(), 0, datagramPacket.getLength());
 	}
 }
